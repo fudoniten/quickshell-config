@@ -5,22 +5,24 @@ Rectangle {
 
   required property string icon
   property bool active: false
+  property int size: Theme.fontSize
+
   signal clicked()
 
-  implicitWidth: 28
-  implicitHeight: 28
+  implicitWidth: size
+  implicitHeight: size
   radius: Theme.iconRadius
 
-  color: active ? Theme.accent : mouse.containsMouse ? Theme.surface : "transparent"
+  color: active ? Theme.muted : (mouse.containsMouse ? Theme.accent : Theme.muted)
 
   Text {
     anchors.centerIn: parent
     
     text: root.icon
-    color: root.active ? Theme.bg : Theme.fg
+    color: root.active ? Theme.fg : Theme.muted
 
     font.family: Theme.fontIcon
-    font.pixelSize: Theme.fontSize
+    font.pixelSize: size
   }
 
   MouseArea {

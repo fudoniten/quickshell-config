@@ -42,28 +42,37 @@ PopupWindow {
     color: Theme.bg
     clip: true
 
-    Rectangle {
-      width: 250
-      height: 250
-      radius: Theme.radius
-      color: Theme.fg
+    ColumnLayout {
       anchors.centerIn: parent
+      spacing: Theme.gap
 
-      Image {
-        source: player?.trackArtUrl ?? ""
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectCrop
-        clip: true
-        sourceSize: Qt.size(Layout.preferredWidth, Layout.preferredHeight)
-        asynchronous: true
+      Rectangle {
+        Layout.preferredWidth: 250
+        Layout.preferredHeight: 250
+        Layout.alignment: Qt.AlignHCenter
+        
+        radius: Theme.radius
+        color: Theme.fg
+
+        Image {
+          source: player?.trackArtUrl ?? ""
+          anchors.fill: parent
+          fillMode: Image.PreserveAspectCrop
+          clip: true
+          sourceSize: Qt.size(Layout.preferredWidth, Layout.preferredHeight)
+          asynchronous: true
+        }
       }
 
       RowLayout {
+        Layout.alignment: Qt.AlignHCenter
+        spacing: Theme.gap
 
         IconButton {
           icon: "⏪︎"
           onClicked: player.previous()
           active: player?.canGoPrevious
+          size: Theme.fontSize * 2
         }
 
         IconButton {
