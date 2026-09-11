@@ -3,6 +3,8 @@ import QtQuick.Layouts
 import Quickshell.Services.Mpris
 
 RowLayout {
+  id: mprisPlayer
+  
   anchors.verticalCenter: parent.verticalCenter
   
   readonly property var player: Mpris.players.values.find(p => p.isPlaying) ??
@@ -25,13 +27,14 @@ RowLayout {
     asynchronous: true
 
     TapHandler {
-      onTapped: window.visible = !window.visible
+      onTapped: mprisPopup.visible = !mprisPopup.visible
     }
   }
 
   MprisPopup {
     id: mprisPopup
     barWindow: window
+    mprisPlayer: mprisPlayer
   }
 
   Text {

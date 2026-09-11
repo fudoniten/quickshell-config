@@ -5,9 +5,10 @@ PopupWindow {
   id: mprisPopup
   
   required property var barWindow
+  required property var mprisPlayer
   
   anchor.window: barWindow
-  anchor.rect.x: 0
+  anchor.rect.x: window.width - mprisPlayer.x - mprisPlayer.width - 500
   anchor.rect.y: barWindow.height
   implicitWidth: 500
   implicitHeight: 500
