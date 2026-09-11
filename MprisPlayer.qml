@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import Quickshell.Services.Mpris
 
 RowLayout {
-  id: mprisPlayer
+  id: mprisRow
   
   anchors.verticalCenter: parent.verticalCenter
   
@@ -15,30 +15,43 @@ RowLayout {
 
   spacing: Theme.gap
 
-  Image {
-    source: player?.trackArtUrl ?? ""
-    
-    Layout.preferredWidth: 18
-    Layout.preferredHeight: 18
-    fillMode: Image.PreserveAspectCrop
-    clip: true
-    sourceSize: Qt.size(Layout.preferredWidth, Layout.preferredHeight)
-    
-    asynchronous: true
+  Rectangle {
+    id: mediaButton
+    implicitWidth: 18
+    implicitHeight: 18
+    radius: Theme.iconRadius
 
-    TapHandler {
-      onTapped: mprisPopup.visible = !mprisPopup.visible
+    color: Theme.surface
+    
+    Image {
+      source: player?.trackArtUrl ?? ""
+
+      anchors.fill: parent
+      Layout.preferredWidth: 18
+      Layout.preferredHeight: 18
+      fillMode: Image.PreserveAspectCrop
+      clip: true
+      sourceSize: Qt.size(Layout.preferredWidth, Layout.preferredHeight)
+      
+      asynchronous: true
+    }
+
+    MouseArea {
+      id: mouse
+      anchors.fill: parent
+      hoverEnabled: true
+      cursorShape: Qt.PointingHandCursor
+      onClicked: mprisPopup.expanded ? mprisPopup.closePopup() : mprisPopup.openPopup()
     }
   }
 
   MprisPopup {
     id: mprisPopup
-    barWindow: window
-    mprisPlayer: mprisPlayer
+    anchorItem: mprisRow
   }
 
   Text {
-    text: player ? (player.trackArtist + " - " + player.trackTitle) : ""
+    text: player ? (player.trackArtist ? (player.trackArtist + " - " + player.trackTitle) : player.trackTitle) : ""
     Layout.maximumWidth: 500
     elide: Text.ElideRight
     color: Theme.fg

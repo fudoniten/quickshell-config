@@ -25,5 +25,6 @@ Singleton {
 
   readonly property int barHeight: 32
   readonly property int gap: 10
-  readonly property int radius: 6
+  readonly property int radius: 10
+  readonly property int iconRadius: 6
 }

@@ -9,7 +9,7 @@ Rectangle {
 
   implicitWidth: 28
   implicitHeight: 28
-  radius: Theme.radius
+  radius: Theme.iconRadius
 
   color: active ? Theme.accent : mouse.containsMouse ? Theme.surface : "transparent"
 
