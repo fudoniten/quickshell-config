@@ -5,6 +5,8 @@ import QtQuick
 // Default sink volume. Click to toggle mute.
 Text {
   id: root
+  
+  anchors.verticalCenter: parent.verticalCenter
 
   // Row (the parent, in Bar.qml) only manages the horizontal axis -- every
   // child defaults to y: 0 (top-aligned) unless it says otherwise. Without
