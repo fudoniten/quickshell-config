@@ -7,9 +7,7 @@ RowLayout {
   
   anchors.verticalCenter: parent.verticalCenter
   
-  readonly property var player: Mpris.players.values.find(p => p.isPlaying) ??
-    Mpris.players.values[0] ??
-    null
+  readonly property var player: CurrentPlayer.current
 
   required property var window
 
