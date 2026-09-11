@@ -21,19 +21,20 @@ Singleton {
       if (!Mpris.players.values.include(root.current))
         root.current = root.pickFallback();
     }
+  }
 
-    Instantiator {
-      model: Mpris.players
-      delegate: QtObject {
-        required property var modelData
-        Connections {
-          target: modelData
-          function onIsPlayingChanged() {
-            if (modelData.isPlaying) root.current = modelData;
-          }
+  Instantiator {
+    model: Mpris.players
+    delegate: QtObject {
+      required property var modelData
+      Connections {
+        target: modelData
+        function onIsPlayingChanged() {
+          if (modelData.isPlaying) root.current = modelData;
         }
       }
     }
+
   }
 
   IpcHandler {
