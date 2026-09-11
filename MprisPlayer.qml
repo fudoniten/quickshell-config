@@ -3,11 +3,6 @@ import QtQuick.Layouts
 import Quickshell.Services.Mpris
 
 RowLayout {
-<<<<<<< variant A
-  // Same fix as Volume/Battery/Tray: rightSection's Row (in Bar.qml) leaves
-  // every child's vertical position alone, defaulting to top-aligned.
->>>>>>> variant B
-======= end
   anchors.verticalCenter: parent.verticalCenter
   
   readonly property var player: Mpris.players.values.find(p => p.isPlaying) ??
@@ -24,6 +19,10 @@ RowLayout {
     clip: true
     sourceSize: Qt.size(width, height)
     asynchronous: true
+
+    TapHandler {
+      onTapped: mprisPopup.visible = !miprisPopup.visible
+    }
   }
 
   Text {

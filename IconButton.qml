@@ -19,8 +19,8 @@ Rectangle {
     text: root.icon
     color: root.active ? Theme.bg : Theme.fg
 
-    font.family: Themes.fontIcons
-    font.pixelSize: Themes.fontSize
+    font.family: Theme.fontIcon
+    font.pixelSize: Theme.fontSize
   }
 
   MouseArea {

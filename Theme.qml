@@ -20,6 +20,7 @@ Singleton {
 
   readonly property string fontSans: "Oxanium"
   readonly property string fontMono: "Iosevka Nerd Font"
+  readonly property string fontIcon: "Symbols Nerd Font"
   readonly property int fontSize: 16
 
   readonly property int barHeight: 32
