@@ -8,6 +8,12 @@ import QtQuick
 Text {
     id: root
 
+    // Same top-alignment default as Volume -- see the comment there. You
+    // haven't seen this one misbehave yet only because it's invisible on a
+    // desktop with no battery; it would show the identical bug the moment
+    // it became visible on a laptop.
+    anchors.verticalCenter: parent.verticalCenter
+
     readonly property var battery: UPower.displayDevice ?? null
 
     visible: !!battery && battery.isLaptopBattery === true

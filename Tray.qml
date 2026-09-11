@@ -7,6 +7,11 @@ import QtQuick
 // its secondary action -- a full DBusMenu popup is deliberately left out of
 // this first pass; see docs/quickshell.md.
 Row {
+    // Tray's own icons are all the same height, so this row centering
+    // within itself was never visible as a bug -- but Tray as a whole is
+    // also a child of rightSection's Row in Bar.qml, so without this it's
+    // top-aligned there too, same as Volume/Battery.
+    anchors.verticalCenter: parent.verticalCenter
     spacing: 8
 
     Repeater {

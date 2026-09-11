@@ -6,6 +6,12 @@ import QtQuick
 Text {
   id: root
 
+  // Row (the parent, in Bar.qml) only manages the horizontal axis -- every
+  // child defaults to y: 0 (top-aligned) unless it says otherwise. Without
+  // this, Volume sits pinned to the top of whichever sibling is tallest
+  // (Tray's or MprisPlayer's 18px icons) instead of centered in the bar.
+  anchors.verticalCenter: parent.verticalCenter
+
   readonly property var sink: Pipewire.defaultAudioSink
   readonly property bool ready: !!sink && !!sink.audio
 
