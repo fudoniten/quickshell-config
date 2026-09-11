@@ -60,7 +60,9 @@ PanelWindow {
     anchors.verticalCenter: parent.verticalCenter
     spacing: Theme.gap
 
-    MprisPlayer {}
+    MprisPlayer {
+      window: bar
+    }
     Tray {}
     Volume {}
     Battery {}

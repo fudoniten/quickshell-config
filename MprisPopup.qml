@@ -1,11 +1,17 @@
 import Quickshell
+import QtQuick
 
 PopupWindow {
   id: mprisPopup
-  anchor.window: bar
-  width: 500
-  height: 500
-  property var visible: false
+  
+  required property var barWindow
+  
+  anchor.window: barWindow
+  anchor.rect.x: 0
+  anchor.rect.y: barWindow.height
+  implicitWidth: 500
+  implicitHeight: 500
+  visible: false
 
   Item {
     id: content
@@ -14,9 +20,7 @@ PopupWindow {
     height: mprisPopup.visible ? parent.height : 0
 
     Behavior on height {
-      NumberAnimation { duration: 100; easing.type: EAsing.OutCubic }
-    }
-
-        
+      NumberAnimation { duration: 100; easing.type: Easing.OutCubic }
+    }        
   }
 }

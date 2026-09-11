@@ -9,24 +9,33 @@ RowLayout {
     Mpris.players.values[0] ??
     null
 
+  required property var window
+
   spacing: Theme.gap
 
   Image {
     source: player?.trackArtUrl ?? ""
-    width: 18
-    height: 18
+    
+    Layout.preferredWidth: 18
+    Layout.preferredHeight: 18
     fillMode: Image.PreserveAspectCrop
     clip: true
-    sourceSize: Qt.size(width, height)
+    sourceSize: Qt.size(Layout.preferredWidth, Layout.preferredHeight)
+    
     asynchronous: true
 
     TapHandler {
-      onTapped: mprisPopup.visible = !miprisPopup.visible
+      onTapped: window.visible = !window.visible
     }
   }
 
+  MprisPopup {
+    id: mprisPopup
+    barWindow: window
+  }
+
   Text {
-    text: player ? (player?.trackArtist + " - " + player?.trackTitle) : ""
+    text: player ? (player.trackArtist + " - " + player.trackTitle) : ""
     Layout.maximumWidth: 500
     elide: Text.ElideRight
     color: Theme.fg
