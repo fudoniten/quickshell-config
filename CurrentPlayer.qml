@@ -25,16 +25,13 @@ Singleton {
 
   Instantiator {
     model: Mpris.players
-    delegate: QtObject {
+    delegate: Connections {
       required property var modelData
-      Connections {
-        target: modelData
-        function onIsPlayingChanged() {
-          if (modelData.isPlaying) root.current = modelData;
-        }
+      target: modelData
+      function onIsPlayingChanged() {
+        if (modelData.isPlaying) root.current = modelData;
       }
     }
-
   }
 
   IpcHandler {

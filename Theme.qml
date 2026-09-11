@@ -8,23 +8,20 @@ import Quickshell
 import QtQuick // for the `color` value type -- Quickshell alone doesn't provide it
 
 Singleton {
-  readonly property color bg: "#202124"
-  readonly property color bgAlt: "#27292c"
-  readonly property color surface: "#323639"
-  readonly property color muted: "#44464d"
-  readonly property color fg: "#80868b"
-  readonly property color accent: "#2196f3"
-  readonly property color ok: "#00e676"
-  readonly property color warning: "#ffeb3b"
-  readonly property color critical: "#f44336"
+    readonly property color bg: "#202124"
+    readonly property color bgAlt: "#27292c"
+    readonly property color surface: "#323639"
+    readonly property color muted: "#44464d"
+    readonly property color fg: "#80868b"
+    readonly property color accent: "#2196f3"
+    readonly property color ok: "#00e676"
+    readonly property color warning: "#ffeb3b"
+    readonly property color critical: "#f44336"
 
-  readonly property string fontSans: "Oxanium"
-  readonly property string fontMono: "Iosevka Nerd Font"
-  readonly property string fontIcon: "Symbols Nerd Font"
-  readonly property int fontSize: 16
+    readonly property string fontSans: "Oxanium"
+    readonly property string fontMono: "Iosevka Nerd Font"
 
-  readonly property int barHeight: 32
-  readonly property int gap: 10
-  readonly property int radius: 10
-  readonly property int iconRadius: 6
+    readonly property int barHeight: 32
+    readonly property int gap: 10
+    readonly property int radius: 6
 }

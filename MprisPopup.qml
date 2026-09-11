@@ -42,14 +42,42 @@ PopupWindow {
     color: Theme.bg
     clip: true
 
-    Image {
-      source: player?.trackArtUrl ?? ""
+    Rectangle {
       width: 250
       height: 250
-      fillMode: Image.PreserveAspectCrop
-      clip: true
-      sourceSize: Qt.size(Layout.preferredWidth, Layout.preferredHeight)
-      asynchronous: true
+      radius: Theme.radius
+      color: Theme.fg
+      anchors.centerIn: parent
+
+      Image {
+        source: player?.trackArtUrl ?? ""
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        clip: true
+        sourceSize: Qt.size(Layout.preferredWidth, Layout.preferredHeight)
+        asynchronous: true
+      }
+
+      RowLayout {
+
+        IconButton {
+          icon: "⏪︎"
+          onClicked: player.previous()
+          active: player?.canGoPrevious
+        }
+
+        IconButton {
+          icon: player.isPlaying ? "⏸" : "▶"
+          onClicked: player.isPlaying = !player.isPlaying
+          active: player?.isPlaying
+        }
+
+        IconButton {
+          icon: "⏩︎"
+          onClicked: player.next()
+          active: player?.canGoNext
+        }
+      }
     }
     
     Behavior on height {
