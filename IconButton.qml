@@ -9,11 +9,11 @@ Rectangle {
 
   signal clicked()
 
-  implicitWidth: size
-  implicitHeight: size
+  implicitWidth: size * 1.5
+  implicitHeight: size * 1.5
   radius: Theme.iconRadius
 
-  color: active ? Theme.muted : (mouse.containsMouse ? Theme.accent : Theme.muted)
+  color: "transparent"
 
   Text {
     anchors.centerIn: parent

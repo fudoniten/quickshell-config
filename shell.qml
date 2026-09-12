@@ -13,4 +13,7 @@ ShellRoot {
 
         Bar {}
     }
+
+  Launcher {}
 }
+

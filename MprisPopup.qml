@@ -14,7 +14,7 @@ PopupWindow {
   anchor.item: anchorItem
   anchor.edges: Edges.Bottom | Edges.Right
   anchor.gravity: Edges.Bottom | Edges.Left
-  implicitWidth: 500
+  implicitWidth: 700
   implicitHeight: 500
   visible: false
 
@@ -44,11 +44,11 @@ PopupWindow {
 
     ColumnLayout {
       anchors.centerIn: parent
-      spacing: Theme.gap
+      spacing: Theme.bigGap
 
       Rectangle {
-        Layout.preferredWidth: 250
-        Layout.preferredHeight: 250
+        Layout.preferredWidth: 300
+        Layout.preferredHeight: 300
         Layout.alignment: Qt.AlignHCenter
         
         radius: Theme.radius
@@ -65,8 +65,19 @@ PopupWindow {
       }
 
       RowLayout {
+        Text {
+          text: player ? (player.trackArtist ? (player.trackArtist + " - " + player.trackTitle) : player.trackTitle) : ""
+          Layout.maximumWidth: 500
+          elide: Text.ElideRight
+          color: Theme.fg
+          font.family: Theme.fontSans
+          font.pixelSize: Theme.fontSize
+        }
+      }
+
+      RowLayout {
         Layout.alignment: Qt.AlignHCenter
-        spacing: Theme.gap
+        spacing: Theme.bigGap
 
         IconButton {
           icon: "⏪︎"
@@ -79,12 +90,14 @@ PopupWindow {
           icon: player.isPlaying ? "⏸" : "▶"
           onClicked: player.isPlaying = !player.isPlaying
           active: player?.isPlaying
+          size: Theme.fontSize * 2
         }
 
         IconButton {
           icon: "⏩︎"
           onClicked: player.next()
           active: player?.canGoNext
+          size: Theme.fontSize * 2
         }
       }
     }
@@ -94,7 +107,7 @@ PopupWindow {
         id: heightAnimation
         
         duration: 150
-        easing.type: Easing.OutBounce
+        easing.type: Easing.OutExpo
 
         onFinished: {
           if (!mprisPopup.expanded)
@@ -106,14 +119,6 @@ PopupWindow {
     onHeightChanged: {
       if (!mprisPopup.expanded && height == 0)
         mprisPopup.visible = false
-    }
-
-    Connections {
-      target: player
-
-      function onTrackChange() {
-        console.log("ART:", player.trackArtUrl)
-      }
     }
   }
 }
