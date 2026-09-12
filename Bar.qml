@@ -28,8 +28,15 @@ PanelWindow {
     anchors.verticalCenter: parent.verticalCenter
     spacing: Theme.gap
 
+    IconButton {
+      icon: "🚀"
+      anchors.verticalCenter: parent.verticalCenter
+      onClicked: LauncherState.cornerVisible = !LauncherState.cornerVisible
+    }
+
     Workspaces {
       screenName: bar.modelData.name
+      anchors.verticalCenter: parent.verticalCenter
     }
   }
 

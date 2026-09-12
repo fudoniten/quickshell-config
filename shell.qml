@@ -15,5 +15,6 @@ ShellRoot {
     }
 
   Launcher {}
+  CornerLauncher {}
 }
 
