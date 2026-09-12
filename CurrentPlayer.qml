@@ -17,8 +17,8 @@ Singleton {
   Connections {
     target: Mpris.players
     
-    function onValueChanged() {
-      if (!Mpris.players.values.include(root.current))
+    function onValuesChanged() {
+      if (!Mpris.players.values.includes(root.current))
         root.current = root.pickFallback();
     }
   }
