@@ -13,6 +13,10 @@ RowLayout {
 
   spacing: Theme.gap
 
+  function togglePopup() {
+    mprisPopup.expanded ? mprisPopup.closePopup() : mprisPopup.openPopup()
+  }
+
   Rectangle {
     id: mediaButton
     implicitWidth: 18
@@ -39,7 +43,7 @@ RowLayout {
       anchors.fill: parent
       hoverEnabled: true
       cursorShape: Qt.PointingHandCursor
-      onClicked: mprisPopup.expanded ? mprisPopup.closePopup() : mprisPopup.openPopup()
+      onClicked: mprisRow.togglePopup()
     }
   }
 
@@ -55,6 +59,13 @@ RowLayout {
     color: Theme.fg
     font.family: Theme.fontSans
     font.pixelSize: Theme.fontSize
+
+    MouseArea {
+      anchors.fill: parent
+      hoverEnabled: true
+      cursorShape: Qt.PointingHandCursor
+      onClicked: mprisRow.togglePopup()
+    }
   }
 
   IconButton {
