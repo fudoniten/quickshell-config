@@ -12,14 +12,24 @@ PopupWindow {
   readonly property var sink: Pipewire.defaultAudioSink
   readonly property bool ready: !!sink && !!sink.audio
 
-  // Physical output devices only -- not per-application playback streams.
-  readonly property var sinks: Pipewire.nodes.values.filter(n => n.isSink && n.audio)
+  // Physical output devices only -- excludes per-application playback
+  // streams (e.g. a browser tab), which show up in Pipewire.nodes too but
+  // can't be picked as the default sink.
+  readonly property var sinks: Pipewire.nodes.values.filter(n => n.isSink && !n.isStream && n.audio)
+
+  readonly property int headerHeight: 40
+  readonly property int rowHeight: 32
+  readonly property int rowSpacing: 4
+  readonly property int maxVisibleRows: 5
+  readonly property int visibleRows: Math.max(1, Math.min(sinks.length, maxVisibleRows))
+  readonly property int listHeight: visibleRows * rowHeight + (visibleRows - 1) * rowSpacing
+  readonly property int targetHeight: headerHeight + Theme.bigGap + listHeight + Theme.bigGap * 2
 
   anchor.item: anchorItem
   anchor.edges: Edges.Bottom | Edges.Right
   anchor.gravity: Edges.Bottom | Edges.Left
   implicitWidth: 320
-  implicitHeight: 300
+  implicitHeight: targetHeight
   visible: false
 
   color: "transparent"
@@ -47,7 +57,7 @@ PopupWindow {
     anchors.top: parent.top
 
     width: parent.width
-    height: volumePopup.expanded ? 300 : 0
+    height: volumePopup.expanded ? volumePopup.targetHeight : 0
     radius: Theme.radius
 
     color: Theme.bg
@@ -56,12 +66,15 @@ PopupWindow {
     ColumnLayout {
       id: content
 
-      anchors.centerIn: parent
-      width: popupBody.width - Theme.bigGap * 2
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.margins: Theme.bigGap
       spacing: Theme.bigGap
 
       RowLayout {
         Layout.fillWidth: true
+        Layout.preferredHeight: volumePopup.headerHeight
         spacing: Theme.gap
 
         Text {
@@ -123,64 +136,67 @@ PopupWindow {
         }
       }
 
-      ColumnLayout {
+      // Scrolls if there are more sinks than fit in maxVisibleRows; sized
+      // exactly to the sink count otherwise, so the popup doesn't reserve
+      // empty space or overflow its bounds.
+      ListView {
         Layout.fillWidth: true
-        spacing: 2
+        Layout.preferredHeight: volumePopup.listHeight
+        clip: true
+        spacing: volumePopup.rowSpacing
+        model: volumePopup.sinks
+        boundsBehavior: Flickable.StopAtBounds
 
-        Repeater {
-          model: volumePopup.sinks
+        delegate: Rectangle {
+          id: deviceRow
 
-          delegate: Rectangle {
-            id: deviceRow
+          required property var modelData
 
-            required property var modelData
+          width: ListView.view.width
+          height: volumePopup.rowHeight
+          radius: Theme.iconRadius
+          color: hover.containsMouse ? Theme.surface : "transparent"
 
-            Layout.fillWidth: true
-            Layout.preferredHeight: 32
-            radius: Theme.iconRadius
-            color: hover.containsMouse ? Theme.surface : "transparent"
+          RowLayout {
+            anchors.fill: parent
+            anchors.leftMargin: Theme.gap
+            anchors.rightMargin: Theme.gap
+            spacing: Theme.gap
 
-            RowLayout {
-              anchors.fill: parent
-              anchors.leftMargin: Theme.gap
-              anchors.rightMargin: Theme.gap
-              spacing: Theme.gap
+            Rectangle {
+              implicitWidth: 14
+              implicitHeight: 14
+              radius: 7
+              color: "transparent"
+              border.width: 2
+              border.color: deviceRow.modelData === volumePopup.sink ? Theme.accent : Theme.muted
 
               Rectangle {
-                implicitWidth: 14
-                implicitHeight: 14
-                radius: 7
-                color: "transparent"
-                border.width: 2
-                border.color: deviceRow.modelData === volumePopup.sink ? Theme.accent : Theme.muted
-
-                Rectangle {
-                  anchors.centerIn: parent
-                  implicitWidth: 6
-                  implicitHeight: 6
-                  radius: 3
-                  color: Theme.accent
-                  visible: deviceRow.modelData === volumePopup.sink
-                }
-              }
-
-              Text {
-                Layout.fillWidth: true
-                text: deviceRow.modelData.description || deviceRow.modelData.nickname || deviceRow.modelData.name
-                elide: Text.ElideRight
-                color: deviceRow.modelData === volumePopup.sink ? Theme.fg : Theme.muted
-                font.family: Theme.fontSans
-                font.pixelSize: Theme.fontSize
+                anchors.centerIn: parent
+                implicitWidth: 6
+                implicitHeight: 6
+                radius: 3
+                color: Theme.accent
+                visible: deviceRow.modelData === volumePopup.sink
               }
             }
 
-            MouseArea {
-              id: hover
-              anchors.fill: parent
-              hoverEnabled: true
-              cursorShape: Qt.PointingHandCursor
-              onClicked: Pipewire.defaultAudioSink = deviceRow.modelData
+            Text {
+              Layout.fillWidth: true
+              text: deviceRow.modelData.description || deviceRow.modelData.nickname || deviceRow.modelData.name
+              elide: Text.ElideRight
+              color: deviceRow.modelData === volumePopup.sink ? Theme.fg : Theme.muted
+              font.family: Theme.fontSans
+              font.pixelSize: Theme.fontSize
             }
+          }
+
+          MouseArea {
+            id: hover
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: Pipewire.defaultAudioSink = deviceRow.modelData
           }
         }
       }
